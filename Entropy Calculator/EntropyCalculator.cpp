@@ -328,9 +328,10 @@ void EntropyCalculator::displayResults() {
 void EntropyCalculator::displayConditionalResults() {
     double entropy = calculateEntropy();
     double total = 0;
+    double avg_conditional_entropy = calculateAverageConditionalEntropy();
 
     std::cout << "\n==================================================\n";
-    std::cout << "РЕЗУЛЬТАТЫ (Частная условная энтропия):\n";
+    std::cout << "РЕЗУЛЬТАТЫ (Условная энтропия):\n";
     std::cout << "==================================================\n";
 
     std::cout << "\n1. Безусловные вероятности P(ξ = a_i):\n";
@@ -364,8 +365,30 @@ void EntropyCalculator::displayConditionalResults() {
             << std::fixed << std::setprecision(6) << result.entropy << " бит\n";
     }
 
+    std::cout << "\n3. Средняя (полная) условная энтропия H(η|ξ):\n";
+    std::cout << "--------------------------------------------------\n";
+    std::cout << "  H(η|ξ) = ";
+
+    // Выводим формулу
+    for (size_t i = 0; i < probabilities.size(); i++) {
+        if (i > 0) std::cout << " + ";
+        std::cout << "p(a" << (i + 1) << ")·H(η|a" << (i + 1) << ")";
+    }
+    std::cout << "\n\n  ";
+
+    // Выводим вычисление
+    for (size_t i = 0; i < probabilities.size(); i++) {
+        if (i > 0) std::cout << " + ";
+        std::cout << std::fixed << std::setprecision(4)
+            << probabilities[i].getDecimal() << "·"
+            << std::setprecision(4) << conditional_results[i].entropy;
+    }
+    std::cout << " = " << std::fixed << std::setprecision(6)
+        << avg_conditional_entropy << " бит\n";
+
     std::cout << "\n==================================================\n";
 }
+
 
 void EntropyCalculator::run() {
     int choice;
@@ -408,4 +431,16 @@ void EntropyCalculator::run() {
     }
 
     std::cout << "\n";
+}
+
+double EntropyCalculator::calculateAverageConditionalEntropy() {
+    double avg_entropy = 0;
+
+    for (size_t i = 0; i < probabilities.size(); i++) {
+        double p_i = probabilities[i].getDecimal();
+        double h_eta_a_i = conditional_results[i].entropy;
+        avg_entropy += p_i * h_eta_a_i;
+    }
+
+    return avg_entropy;
 }

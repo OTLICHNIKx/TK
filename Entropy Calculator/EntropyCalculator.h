@@ -30,6 +30,7 @@ private:
     void clearInputStream();
 
     double calculateConditionalEntropy(const std::vector<ConditionalProbability>& cond_probs);
+    double calculateAverageConditionalEntropy();
     int showMenu();
 
 public:

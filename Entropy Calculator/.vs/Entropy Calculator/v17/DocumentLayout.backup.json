@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|solutionrelative:EntropyCalculator.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\EntropyCalculator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|solutionrelative:EntropyCalculator.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|solutionrelative:main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E905329-2104-4D0C-9C22-1DCCDB4E632B}|Entropy Calculator.vcxproj|E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\Probability.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -40,20 +40,20 @@
               "RelativeDocumentMoniker": "EntropyCalculator.cpp",
               "ToolTip": "E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\EntropyCalculator.cpp",
               "RelativeToolTip": "EntropyCalculator.cpp",
-              "ViewState": "AgIAAGwBAAAAAAAAAAAAAH0BAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAFoBAAAAAAAAAAAgwIcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-02-16T17:42:51.936Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "EntropyCalculator.h",
               "DocumentMoniker": "E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\EntropyCalculator.h",
               "RelativeDocumentMoniker": "EntropyCalculator.h",
               "ToolTip": "E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\EntropyCalculator.h",
               "RelativeToolTip": "EntropyCalculator.h",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAACYAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAB8AAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-02-16T17:42:41.757Z",
               "EditorCaption": ""
@@ -68,8 +68,7 @@
               "RelativeToolTip": "Probability.cpp",
               "ViewState": "AgIAACUAAAAAAAAAAAAgwFAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-02-16T17:42:13.803Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-16T17:42:13.803Z"
             },
             {
               "$type": "Document",
@@ -81,12 +80,11 @@
               "RelativeToolTip": "Probability.h",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAABkAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-02-16T17:41:58.692Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-16T17:41:58.692Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "main.cpp",
               "DocumentMoniker": "E:\\Study\\Programming\\Github\\6sem\\TK\\TK\\Entropy Calculator\\main.cpp",
               "RelativeDocumentMoniker": "main.cpp",
@@ -94,8 +92,7 @@
               "RelativeToolTip": "main.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-02-16T17:24:22.918Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-16T17:24:22.918Z"
             }
           ]
         }
