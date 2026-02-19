@@ -123,11 +123,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entropy.cpp" />
     <ClCompile Include="EntropyCalculator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Probability.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entropy.h" />
     <ClInclude Include="EntropyCalculator.h" />
     <ClInclude Include="Probability.h" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 #include "EntropyCalculator.h"
 #include <iostream>
-#include <cmath>
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -119,7 +118,8 @@ void EntropyCalculator::inputProbabilities() {
                     count++;
                     added = true;
 
-                    std::cout << "  Добавлено: " << std::fixed << std::setprecision(4) << value << "\n";
+                    std::cout << "  Добавлено: " << input << " = "
+                        << std::fixed << std::setprecision(4) << value << "\n";
                 }
                 else {
                     std::cout << "Ошибка: сумма вероятностей не может превышать 1. Осталось: "
@@ -131,183 +131,131 @@ void EntropyCalculator::inputProbabilities() {
             }
         }
         else {
-            std::cout << "Ошибка: неверный формат. Используйте например: 0,3, 1/2, 0,75\n";
+            std::cout << "Ошибка: неверный формат вероятности. Примеры: 0.5, 1/2, 0,3\n";
         }
 
-        // Проверяем сумму после добавления
-        if (added) {
-            if (std::abs(current_sum - 1.0) < 1e-10) {
-                std::cout << "Сумма вероятностей = 1\n";
-                break;
-            }
-            // Если сумма меньше 1, просто продолжаем цикл
+        if (!added) {
+            clearInputStream();
         }
     }
 }
 
 void EntropyCalculator::inputConditionalProbabilities() {
     std::cout << "\n==================================================\n";
-    std::cout << "Введите условные вероятности P(η = b_j | ξ = a_i):\n";
+    std::cout << "Введите условные вероятности для каждого a_i:\n";
+    std::cout << "Для каждого условия вводите вероятности P(b_j | a_i)\n";
+    std::cout << "Формат: b_j=вероятность (например, b1=0.5 или b2=1/2)\n";
+    std::cout << "Сумма для каждого условия должна быть =1\n";
+    std::cout << "Завершите ввод для условия пустой строкой\n";
     std::cout << "--------------------------------------------------\n";
 
-    for (size_t i = 0; i < probabilities.size(); i++) {
+    for (size_t i = 0; i < probabilities.size(); ++i) {
+        std::string condition = "a" + std::to_string(i + 1);
         ConditionalEntropyResult result;
-        result.condition = "a" + std::to_string(i + 1);
+        result.condition = condition;
 
-        std::cout << "\nДля условия ξ = a" << (i + 1) << ":\n";
+        std::cout << "\nУсловные вероятности для " << condition << " (P(η|" << condition << " )):\n";
 
+        std::string input;
         int count = 1;
         double current_sum = 0;
 
         while (true) {
-            std::cout << "  P(b" << count << " | a" << (i + 1) << ") (текущая сумма: "
+            std::cout << "P(b" << count << "|" << condition << ") (текущая сумма: "
                 << std::fixed << std::setprecision(4) << current_sum << "): ";
-
-            std::string input;
             std::getline(std::cin, input);
 
-            // Удаляем пробелы в начале и конце
             input.erase(0, input.find_first_not_of(" \t"));
             input.erase(input.find_last_not_of(" \t") + 1);
 
             if (input.empty()) {
-                if (count == 1) {
-                    std::cout << "    Ошибка: нужно ввести хотя бы одну условную вероятность!\n";
+                if (result.probabilities.empty()) {
+                    std::cout << "Ошибка: нужно ввести хотя бы одну вероятность!\n";
                     continue;
                 }
                 if (std::abs(current_sum - 1.0) > 1e-10) {
-                    std::cout << "    Ошибка: сумма условных вероятностей должна быть равна 1. Текущая сумма: "
+                    std::cout << "Ошибка: сумма должна быть =1. Текущая сумма: "
                         << std::fixed << std::setprecision(4) << current_sum << "\n";
-                    std::cout << "    Введите оставшуюся вероятность или начните заново для этого условия.\n";
                     continue;
                 }
                 break;
             }
 
+            // Парсинг формата b_j=вероятность
+            size_t eq_pos = input.find('=');
+            if (eq_pos == std::string::npos) {
+                std::cout << "Ошибка: формат должен быть b_j=вероятность\n";
+                continue;
+            }
+
+            std::string event = input.substr(0, eq_pos);
+            std::string prob_str = input.substr(eq_pos + 1);
+
             int num, denom;
             double value;
-            bool added = false;
 
-            // Пробуем распарсить как дробь
-            if (Probability::parseFraction(input, num, denom)) {
-                double p = static_cast<double>(num) / denom;
-                if (Probability::isValidProbability(p)) {
-                    if (current_sum + p <= 1.0 + 1e-10) {
-                        ConditionalProbability cond_prob;
-                        cond_prob.event_name = "b" + std::to_string(count) + "|a" + std::to_string(i + 1);
-                        cond_prob.probability = p;
-                        cond_prob.original_input = input;
-                        result.probabilities.push_back(cond_prob);
-
-                        current_sum += p;
-                        count++;
-                        added = true;
-
-                        std::cout << "    Добавлено: " << p << "\n";
-                    }
-                    else {
-                        std::cout << "    Ошибка: сумма вероятностей не может превышать 1. Осталось: "
-                            << std::fixed << std::setprecision(4) << (1.0 - current_sum) << "\n";
-                    }
-                }
-                else {
-                    std::cout << "    Ошибка: вероятность должна быть в интервале (0, 1]\n";
-                }
+            if (Probability::parseFraction(prob_str, num, denom)) {
+                value = static_cast<double>(num) / denom;
             }
-            // Пробуем как десятичное число
-            else if (Probability::parseDecimal(input, value)) {
-                if (Probability::isValidProbability(value)) {
-                    if (current_sum + value <= 1.0 + 1e-10) {
-                        ConditionalProbability cond_prob;
-                        cond_prob.event_name = "b" + std::to_string(count) + "|a" + std::to_string(i + 1);
-                        cond_prob.probability = value;
-                        cond_prob.original_input = input;
-                        result.probabilities.push_back(cond_prob);
-
-                        current_sum += value;
-                        count++;
-                        added = true;
-
-                        std::cout << "    Добавлено: " << value << "\n";
-                    }
-                    else {
-                        std::cout << "    Ошибка: сумма вероятностей не может превышать 1. Осталось: "
-                            << std::fixed << std::setprecision(4) << (1.0 - current_sum) << "\n";
-                    }
-                }
-                else {
-                    std::cout << "    Ошибка: вероятность должна быть в интервале (0, 1]\n";
-                }
+            else if (Probability::parseDecimal(prob_str, value)) {
+                // ok
             }
             else {
-                std::cout << "    Ошибка: неверный формат. Используйте например: 0,3, 1/2, 0,75\n";
+                std::cout << "Ошибка: неверный формат вероятности.\n";
+                continue;
             }
 
-            if (added && std::abs(current_sum - 1.0) < 1e-10) {
-                std::cout << "    Сумма условных вероятностей = 1\n";
-                break;
+            if (!Probability::isValidProbability(value)) {
+                std::cout << "Ошибка: вероятность должна быть в (0,1]\n";
+                continue;
             }
+
+            if (current_sum + value > 1.0 + 1e-10) {
+                std::cout << "Ошибка: сумма превысит 1. Осталось: "
+                    << (1.0 - current_sum) << "\n";
+                continue;
+            }
+
+            ConditionalProbability cond_p;
+            cond_p.event_name = event + "|" + condition;
+            cond_p.probability = value;
+            cond_p.original_input = prob_str;
+
+            result.probabilities.push_back(cond_p);
+            current_sum += value;
+            count++;
+
+            std::cout << "  Добавлено: P(" << cond_p.event_name << ") = "
+                << std::fixed << std::setprecision(4) << value << "\n";
         }
 
-        // Вычисляем частную условную энтропию для этого условия
-        result.entropy = calculateConditionalEntropy(result.probabilities);
+        result.entropy = Entropy::calculateConditionalEntropy(result.probabilities);
         conditional_results.push_back(result);
     }
 }
 
-double EntropyCalculator::calculateConditionalEntropy(const std::vector<ConditionalProbability>& cond_probs) {
-    double entropy = 0;
-    for (const auto& p : cond_probs) {
-        if (p.probability > 0) {
-            entropy -= p.probability * log2(p.probability);
-        }
-    }
-    return entropy;
-}
-
-void EntropyCalculator::calculateAllConditionalEntropies() {
-    for (auto& result : conditional_results) {
-        result.entropy = calculateConditionalEntropy(result.probabilities);
-    }
-}
-
 bool EntropyCalculator::checkProbabilitySum() {
-    double total = 0;
+    double sum = 0;
     for (const auto& p : probabilities) {
-        total += p.getDecimal();
+        sum += p.getDecimal();
     }
-
-    if (std::abs(total - 1.0) > 1e-10) {
-        std::cout << "\nОшибка: сумма вероятностей = "
-            << std::fixed << std::setprecision(6) << total
-            << " (должна быть равна 1)\n";
-        std::cout << "Программа завершена с ошибкой.\n";
+    if (std::abs(sum - 1.0) > 1e-10) {
+        std::cout << "Ошибка: сумма вероятностей не равна 1 ("
+            << std::fixed << std::setprecision(6) << sum << ").\n";
         return false;
     }
-
     return true;
 }
 
-double EntropyCalculator::calculateEntropy() {
-    double entropy = 0;
-    for (const auto& p : probabilities) {
-        double p_val = p.getDecimal();
-        if (p_val > 0) {
-            entropy -= p_val * log2(p_val);
-        }
-    }
-    return entropy;
-}
-
 void EntropyCalculator::displayResults() {
-    double entropy = calculateEntropy();
+    double entropy = Entropy::calculateEntropy(probabilities);
     double total = 0;
 
     std::cout << "\n==================================================\n";
     std::cout << "РЕЗУЛЬТАТЫ (Обычная энтропия):\n";
     std::cout << "==================================================\n";
 
-    std::cout << "\nВероятности:\n";
+    std::cout << "\nВероятности P(ξ = a_i):\n";
     std::cout << "--------------------------------------------------\n";
     for (size_t i = 0; i < probabilities.size(); i++) {
         std::cout << "  p" << (i + 1) << " = ";
@@ -326,9 +274,9 @@ void EntropyCalculator::displayResults() {
 }
 
 void EntropyCalculator::displayConditionalResults() {
-    double entropy = calculateEntropy();
+    double entropy = Entropy::calculateEntropy(probabilities);
     double total = 0;
-    double avg_conditional_entropy = calculateAverageConditionalEntropy();
+    double avg_conditional_entropy = Entropy::calculateAverageConditionalEntropy(probabilities, conditional_results);
 
     std::cout << "\n==================================================\n";
     std::cout << "РЕЗУЛЬТАТЫ (Условная энтропия):\n";
@@ -389,7 +337,6 @@ void EntropyCalculator::displayConditionalResults() {
     std::cout << "\n==================================================\n";
 }
 
-
 void EntropyCalculator::run() {
     int choice;
 
@@ -431,16 +378,4 @@ void EntropyCalculator::run() {
     }
 
     std::cout << "\n";
-}
-
-double EntropyCalculator::calculateAverageConditionalEntropy() {
-    double avg_entropy = 0;
-
-    for (size_t i = 0; i < probabilities.size(); i++) {
-        double p_i = probabilities[i].getDecimal();
-        double h_eta_a_i = conditional_results[i].entropy;
-        avg_entropy += p_i * h_eta_a_i;
-    }
-
-    return avg_entropy;
 }

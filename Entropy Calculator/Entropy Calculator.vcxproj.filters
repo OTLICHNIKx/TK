@@ -24,12 +24,18 @@
     <ClCompile Include="EntropyCalculator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Entropy.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Probability.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="EntropyCalculator.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Entropy.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
