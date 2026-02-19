@@ -36,4 +36,15 @@ namespace Entropy {
         return avg_entropy;
     }
 
+    double calculateJointEntropy(const std::vector<JointProbability>& joint_probs) {
+        double entropy = 0.0;
+        for (const auto& jp : joint_probs) {
+            double p = jp.probability;
+            if (p > 0.0) {
+                entropy -= p * std::log2(p);
+            }
+        }
+        return entropy;
+    }
+
 } // namespace Entropy
